@@ -5,13 +5,11 @@ from pydantic import BaseModel, field_validator
 
 class Habit:
     """Внутренняя модель привычки для хранения в памяти."""
-    
-    def __init__(self, id: int, name: str):
-        # TODO: Инициализировать поля
+    def __init__(self, id: int, name: str, marks: List[date] = None):
         self.id = id
         self.name = name
-        self.marks =  list()
-        self.streak: int = 0 
+        self.marks = marks if marks is not None else []
+        self.streak = 0
 
 class HabitBase(BaseModel):
     """Базовая модель для ответов API."""
