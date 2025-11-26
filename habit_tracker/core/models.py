@@ -11,6 +11,28 @@ class Habit:
         self.id = id
         self.name = name
         self.marks =  list()
+        self.streak: int = 0 
+
+class HabitBase(BaseModel):
+    """Базовая модель для ответов API."""
+    id: int
+    name: str
+
+class HabitUpdate(BaseModel):
+    """Модель для обновления привычки."""
+    name: str
+
+    @field_validator('name')
+    @classmethod
+    def name_must_not_be_empty(cls, v: str) -> str:
+        if not v.strip():
+            raise ValueError('Habit name cannot be empty')
+        return v.strip()
+    
+class HabitResponse(HabitBase):
+    """Полная информация о привычке."""
+    marks: List[date]
+    streak: int
 
 class HabitCreate(BaseModel):
     """Модель для создания привычки."""
@@ -24,20 +46,12 @@ class HabitCreate(BaseModel):
             raise ValueError('Habit name cannot be empty')
         return v.strip()
 
-class HabitResponse(BaseModel):
-    """Модель ответа после создания привычки."""
-    # TODO: Добавить поля id и name
-    id: int
-    name: str
-
 # TODO: Реализовать остальные модели (HabitMarkResponse, HabitListResponse)
 
 class HabitMarkResponse(BaseModel):
     id: int
     name: str
     last_marked_at: str
+    streak: int
 
-class HabitListResponse(BaseModel):
-    id: int
-    name: str
-    marks: List[str]
+HabitListResponse = HabitResponse
