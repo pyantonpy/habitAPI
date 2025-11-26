@@ -5,5 +5,5 @@ from habit_tracker.api import habits_api
 
 app = FastAPI(title="Habit Tracker API")
 app.mount("/static", StaticFiles(directory="habit_tracker/static"), name="static")
-app.include_router(web.router)
-app.include_router(habits_api.router)
+app.include_router(web.router, tags=["Web Interface"])
+app.include_router(habits_api.router, prefix="/api/habits", tags=["Habits API"])
