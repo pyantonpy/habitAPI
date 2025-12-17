@@ -111,9 +111,8 @@ async def get_stats_page(request: Request):
             "last_dates": stats["last_dates"],
         })
     return templates.TemplateResponse(
-        request=request,
-        name="stats.html",
-        context={"stats": stats_data}
+        "stats.html",
+        {"request": request, "stats": stats_data}
     )
 
 
